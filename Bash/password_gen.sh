@@ -5,12 +5,12 @@ CHARSET=$3
 
 echo "Super awesome password generator!"
 
-if [ -z "${NUM}" ]; then
-	read -p "Enter length of password(s): " length
+if [ -z "${LENGTH}" ]; then
+	read -p "Enter length of password(s): " LENGTH
 fi
 	
-if [ -z "${LENGTH}" ]; then
-	read -p "Enter number of passwords to generate: " num
+if [ -z "${NUM}" ]; then
+	read -p "Enter number of passwords to generate: " NUM
 fi
 
 if [ -z "${CHARSET}" ]; then
@@ -18,16 +18,16 @@ if [ -z "${CHARSET}" ]; then
 	\t 1) All printable characters
 	\t 2) Alpha numeric 
 	\t 3) Hexadecimal\n"
-	read -p "Select a character set: " charSetSel
+	read -p "Select a character set: " CHARSETSEL
 fi
 
-case "$charSetSel" in
+case "$CHARSETSEL" in
 
-	1) charSet="[:print:]"
+	1) CHARSET="[:print:]"
 	   ;;
-	2) charSet="[:alnum:]"
+	2) CHARSET="[:alnum:]"
 	   ;;
-	3) charSet="[:xdigit:]" 
+	3) CHARSET="[:xdigit:]" 
 	   ;;
 	#*) echo "Whaaat?"
 
