@@ -10,25 +10,25 @@ reservations = conn.get_all_reservations()
 #print instance.public_dns_name
 
 ## Need a switch statement and this seems to be the cleanest way
-class switch(object):
-    def __init__(self, value):
-        self.value = value
-        self.fall = False
+# class switch(object):
+#     def __init__(self, value):
+#         self.value = value
+#         self.fall = False
 
-    def __iter__(self):
-        """Return the match method once, then stop"""
-        yield self.match
-        raise StopIteration
+#     def __iter__(self):
+#         """Return the match method once, then stop"""
+#         yield self.match
+#         raise StopIteration
     
-    def match(self, *args):
-        """Indicate whether or not to enter a case suite"""
-        if self.fall or not args:
-            return True
-        elif self.value in args: # changed for v1.5, see below
-            self.fall = True
-            return True
-        else:
-            return False
+#     def match(self, *args):
+#         """Indicate whether or not to enter a case suite"""
+#         if self.fall or not args:
+#             return True
+#         elif self.value in args: 
+#             self.fall = True
+#             return True
+#         else:
+#             return False
 
 def list_instances(reservations):
 	for res in (reservations):
@@ -54,9 +54,9 @@ def stop_instance(instance_id):
 		print inst
 		conn.stop_instances(inst)
 
-print "1) List all reservations"
-print "2) Start an instance"
-print "3) Stop an instance"
+# print "1) List all reservations"
+# print "2) Start an instance"
+# print "3) Stop an instance"
 
 loop = 1
 while loop == 1:
@@ -69,16 +69,18 @@ while loop == 1:
 			loop = 0 
 			instance_id_raw = raw_input("Instance ID: ")
 			instance_id = instance_id_raw.replace(' ','').split(',')
-			#start_instance(instance_id)
-			test_instance(instance_id)
+			start_instance(instance_id)
 		elif case("3"):
 			loop = 0
 			instance_id_raw = raw_input("Instance ID: ")
-                        instance_id = instance_id_raw.split(',')
+			instance_id = instance_id_raw.replace(' ','').split(',')
 			stop_instance(instance_id)
 		else:
 			print "Select something different"
 
 
-## Notes: http://codingstyleguide.com/style/180/python-pythonic-way-to-implement-switchcase-statements
+###############
+# Notes
+###############
+#http://codingstyleguide.com/style/180/python-pythonic-way-to-implement-switchcase-statements
 

@@ -113,3 +113,12 @@ def grades_std_deviation(variance):
 #variance = grades_variance(grades)
 #print grades_std_deviation(variance)
 
+
+cities = {
+	'CA': 'San Francisco',
+	'MI': 'Detroit',
+	'FL': 'Jacksonville',
+	'NY': 'New York',
+	'OR': 'Portland'
+}
+
