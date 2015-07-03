@@ -3,18 +3,13 @@
 import boto.ec2
 import argparse
 
-region_id = "us-west-2"
-
-conn = boto.ec2.connect_to_region(region_id)
-reservations = conn.get_all_reservations()
-
 def parseArgs():
 	parser = argparse.ArgumentParser(description = "Manage AWS EC2 goodness")
-	group = parser.add_mutually_exclusive_group()
-	group.add_argument("-v", "--verbose", action = "store_true")
-	group.add_argument("-q", "--quiet", action = "store_true")
+	# group = parser.add_mutually_exclusive_group()
+	# group.add_argument("-v", "--verbose", action = "store_true")
+	# group.add_argument("-q", "--quiet", action = "store_true")
 	parser.add_argument("-l", "--list", action = "store_true", help = "List instances in region")
-	parser.add_argument("-r", "--region", metavar = "Region ID", help = "Connect to specific region")
+	parser.add_argument("-r", "--region", metavar = "Region ID", default = "us-west-2", help = "Connect to specific region")
 	parser.add_argument("-st", "--start", action = "store_true", help = "Start an Instance")
 	parser.add_argument("-sp", "--stop", action = "store_true", help = "Stop an Instance")
 	return parser.parse_args()
@@ -54,33 +49,36 @@ def test_instance(instance_id):
 	for inst in (instance_id):
 		print inst
 
-def start_instance(instSelectIds):
+def start_instance(instSelectIds, conn):
 	for inst in instSelectIds:
 		print 'Starting %s' % (inst)
 		conn.start_instances(inst)
 
-def stop_instance(instSelectIds):
-	for inst in (instSelectIds):
+def stop_instance(instSelectIds, conn):
+	for inst in instSelectIds:
 		print 'Stopping %s' % (inst)
 		conn.stop_instances(inst)
 
 
 def main():
 	args = parseArgs()
+	region_id = args.region
+	conn = boto.ec2.connect_to_region(region_id)
+	reservations = conn.get_all_reservations()
 
-	if args.verbose:
-		print "Not Implemented yet"
+	# if args.verbose:
+	# 	print "Not Implemented yet"
 
-	elif args.list:
+	if args.list:
 		list_instances(reservations)
 
 	elif args.start:
 		instSelectIds = instance_select(reservations)
-		start_instance(instSelectIds)
+		start_instance(instSelectIds, conn)
 
 	elif args.stop:
-		instSelect = instance_select(reservations)
-		stop_instance(instSelect)
+		instSelectIds = instance_select(reservations)
+		stop_instance(instSelectIds, conn)
 	else:
 		print "Hold up, that's not an option yet!"
 
